@@ -15,8 +15,10 @@ private Integer[][] puzzleState;   //puzzle state
  * @param pS puzzle state
  */
 
-public EPuzzleState(Integer[][] pS){
+public EPuzzleState(Integer[][] pS, int lc, int rc){
         puzzleState=pS;
+        localCost=lc;
+        estRemCost=rc;
 }
 
 public EPuzzleState(EPuzzleState original) {
@@ -186,6 +188,47 @@ public boolean sameState (SearchState s2) {
         return (this.equals(eps2));
 }
 
+/**
+ * estRemCost
+ * @param type - the algorithm to be used, either Manhattan or Hamming
+ */
+
+public int estRemCost (String type) {
+	int estRemCost =0;
+	int desiredValue = 1;
+	int desiredI;
+	int desiredJ;
+	for (int i = 0; i<puzzleState.length; i++) {
+        for (int j = 0; j<puzzleState[i].length; j++) {
+                desiredValue = i*3 + j+1; //calculates intended value based on the coordinates
+                if (desiredValue == 9) {desiredValue = 0;}
+	    		switch (type) {
+	    		case "Manhattan":
+	    			if (puzzleState[i][j]!=desiredValue) {
+	    				desiredI = 0;
+	    				for (int minimumValue = 0; minimumValue<3; minimumValue++) {
+	    					if (desiredValue < minimumValue*3) {
+	    						desiredI+=1;
+	    					}
+	    				}
+	    				desiredJ = desiredValue - (3*desiredI) - 1;
+	    				estRemCost+= Math.abs(i-desiredI);
+	    				estRemCost+= Math.abs(j-desiredJ);
+	    			}
+	    			break;
+	    		case "Hamming":	
+	    			if (puzzleState[i][j]!=desiredValue) {
+	    				estRemCost+=1;
+	    			}
+	    			break;
+	    		default:
+	    			estRemCost = 1; //unsure of what to put here
+	    			break;
+	    		}
+        }
+	}
+	return estRemCost;
+}
 
 /**
  * toString
