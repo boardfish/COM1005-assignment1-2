@@ -21,17 +21,22 @@ public static void main(String[] arg) {
 
         //set up grids
 
-        Integer[][] p1 = {{1,0,3},{4,2,6},{7,5,8}};
-        Integer[][] p2 = {{4,1,3},{7,2,5},{0,8,6}};
-        Integer[][] p3 = {{2,3,6},{1,5,8},{4,7,0}};
-        EpuzzGen gen = new EpuzzGen(12345); 
-        //Integer[] genArray = ArrayUtils.toObject(gen.puzzGen(6));
+        EpuzzGen gen = new EpuzzGen(16458);
+        int[][] generatedPuzzle = gen.puzzGen(6);
+        int value;
+        Integer[][] puzzle = new Integer[3][3];
+        for (int i = 0; i<3; i++) {
+          for (int j = 0; j<3; j++) {
+            value = generatedPuzzle[i][j];
+            puzzle[i][j] = new Integer(value);
+          }
+        }
         Integer[][] targetGrid = {{1,2,3},{4,5,6},{7,8,0}};
 
         //run search for P1
 
-        EPuzzleSearch searcher = new EPuzzleSearch(p1,targetGrid);
-        SearchState p1init = (SearchState) new EPuzzleState(p1);
+        EPuzzleSearch searcher = new EPuzzleSearch(puzzle,targetGrid);
+        SearchState p1init = (SearchState) new EPuzzleState(puzzle, 1, 1);
         String res_astar = searcher.runSearch(p1init, "AStar");
         screen.println(res_astar);
 

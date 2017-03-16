@@ -55,7 +55,7 @@ public EPuzzleState deepCopy (EPuzzleState puzzleState) {
         for (int i = 0; i<3; i++) {
                 newPuzzleStateGrid[i] = puzzleStateGrid[i].clone();
         }
-        return new EPuzzleState(newPuzzleStateGrid);
+        return new EPuzzleState(newPuzzleStateGrid,1,1);
 }
 
 /**
@@ -84,7 +84,7 @@ public EPuzzleState moveVertical(Integer[][] pS, int column, int oldRow, int new
         int tmp = puzzleState[newRow][column];
         puzzleState[newRow][column] = puzzleState[oldRow][column];
         puzzleState[oldRow][column] = tmp;
-        return new EPuzzleState(puzzleState);
+        return new EPuzzleState(puzzleState, 1, 1);
 }
 
 /**
@@ -100,7 +100,7 @@ public EPuzzleState moveHorizontal(Integer[][] pS, int row, int oldColumn, int n
         int tmp = puzzleState[row][newColumn];
         puzzleState[row][newColumn] = puzzleState[row][oldColumn];
         puzzleState[row][oldColumn] = tmp;
-        return new EPuzzleState(puzzleState);
+        return new EPuzzleState(puzzleState, 1, 1);
 }
 
 /**
@@ -216,7 +216,7 @@ public int estRemCost (String type) {
 	    				estRemCost+= Math.abs(j-desiredJ);
 	    			}
 	    			break;
-	    		case "Hamming":	
+	    		case "Hamming":
 	    			if (puzzleState[i][j]!=desiredValue) {
 	    				estRemCost+=1;
 	    			}
